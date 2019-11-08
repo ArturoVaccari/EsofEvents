@@ -1,33 +1,35 @@
 console.log('SPESOMETRO')
-const motivoSpesa = document.querySelector('#motivo-spesa')
-const importoSpesa = document.querySelector('#importo-spesa')
+const nomeMateria = document.querySelector('#nome-materia')
+const votoMateria = document.querySelector('#voto-materia')
 const cancellaBtn = document.querySelector('#btn-cancella')
 const aggiungiBtn = document.querySelector('#btn-aggiungi')
-const speseList = document.querySelector('#list-spese')
-const speseTotaliOutput = document.querySelector('#spese-totali')
+const materieList = document.querySelector('#list-materie')
+const mediaVoti = document.querySelector('#media-voti')
 
 const alertController = document.querySelector('ion-alert-controller')
 
-let spesaTotale = 0
-
+let mediaVotiAtt = 0
+let sommaTemp = 0
+let numMaterie = 0
 
 const cancella = () => {
-  motivoSpesa.value = ''
-  importoSpesa.value = ''
+  nomeMateria.value = ''
+  votoMateria.value = ''
 }
 cancellaBtn.addEventListener('click', cancella)
 aggiungiBtn.addEventListener('click', () => {
   // console.log('aggiungi spesa')
-  const motivoInserito = motivoSpesa.value
-  const importoInserito = importoSpesa.value
+  const motivoInserito = nomeMateria.value
+  const importoInserito = votoMateria.value
   if (
     importoInserito <= 0
     || importoInserito.trim().length <= 0
     || motivoInserito.trim().length <= 0
+    || importoInserito >= 6
   ) {
     // alert('Valori non validi')
     alertController.create({
-      message: 'Perfavore inserisci valori validi, non sono ammese spese a zero!',
+      message: 'Perfavore inserisci valori validi, tra 1 e 5!',
       header: 'Valori non validi',
       buttons: ['Ok']
     }).then(alertElem => {
@@ -37,11 +39,13 @@ aggiungiBtn.addEventListener('click', () => {
   }
   console.log('SPESA: € ', motivoInserito, importoInserito)
   const nuovoElem = document.createElement('ion-item')
-  nuovoElem.textContent = motivoInserito + ': € ' + importoInserito
-  speseList.appendChild(nuovoElem)
+  nuovoElem.textContent = motivoInserito + ' ' + importoInserito
+  materieList.appendChild(nuovoElem)
  // +variabileStringa la transforma in numero
- spesaTotale += +importoInserito
-  console.log('Totale', spesaTotale)
-  speseTotaliOutput.textContent = '€ ' + spesaTotale
+ numMaterie += 1
+ sommaTemp += importoInserito
+ mediaVotiAtt = (sommaTemp) / numMaterie
+  console.log('Totale', mediaVotiAtt)
+  mediaVoti.textContent = mediaVotiAtt
   cancella()
 })
